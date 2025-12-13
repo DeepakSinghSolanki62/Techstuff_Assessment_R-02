@@ -1,6 +1,6 @@
 export default function LoadingSkeleton({ rows = 5 }) {
   return (
-    <div className="space-y-2 animate-pulse">
+    <div className="space-y-2 w-full animate-pulse">
       {[...Array(rows)].map((_, i) => (
         <div
           key={i}

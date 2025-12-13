@@ -39,7 +39,7 @@ button {
 /*    TABLE STYLES */
 
 .table {
-  @apply w-full border border-blue-100 rounded-lg ;
+  @apply w-full border border-blue-100 rounded-2xl ;
 }
 
 .table th {
@@ -79,5 +79,5 @@ button {
 
 
 .skeleton {
-  @apply bg-gray-200 rounded animate-pulse;
+  @apply bg-gray-200 rounded  h-8 animate-pulse;
 }
