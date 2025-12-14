@@ -1,10 +1,11 @@
-import LoadingSkeleton from "./LoadingSkeleton";
-export default function PokemonTable({
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+
+const PokemonTable = ({
   pokemonList,
   loading,
   onSelectPokemon,
   selectedPokemon,
-}) {
+}) => {
   if (loading) {
     return <LoadingSkeleton rows={8} />;
   }
@@ -17,7 +18,7 @@ export default function PokemonTable({
   return (
     <>
       <table className="table">
-        <thead className="">
+        <thead>
           <tr>
             <th className="border p-2 text-center w-1/6">Sr. No</th>
             <th className="border p-2 text-center">Pokemon Name</th>
@@ -26,27 +27,27 @@ export default function PokemonTable({
         <tbody>
           {pokemonList.map((pokemon, index) => (
             <tr
-              key={pokemon.id}
+              key={pokemon?.id}
               className={`transition ${
-                selectedPokemon?.name === pokemon.name
-                  ? "bg-blue-200"
+                selectedPokemon?.name === pokemon?.name
+                  ? "bg-primary text-white"
                   : index % 2 === 0
-                  ? "bg-white hover:bg-gray-50"
-                  : "bg-blue-50/20 hover:bg-gray-50"
+                  ? "bg-white hover:bg-gray-50 text-primary "
+                  : "bg-gray-50/20 hover:bg-gray-50 text-primary"
  
               }`}
             >
               <td className="border p-2 text-center">{pokemon.id}</td>
               <td
-                className="border p-2 capitalize text-blue-600 flex justify-center items-center gap-2 cursor-pointer text-center hover:underline"
+                className="border p-2 capitalize flex-center gap-2 cursor-pointer text-center hover:underline"
                 onClick={() => onSelectPokemon(pokemon)}
               >
                 <img
-                  src={pokemon.sprites.front_default}
-                  alt={pokemon.name}
+                  src={pokemon?.sprites.front_default}
+                  alt={pokemon?.name}
                   className="w-11 h-11"
                 />
-                {pokemon.name}
+                {pokemon?.name}
                 
               </td>
             </tr>
@@ -57,3 +58,4 @@ export default function PokemonTable({
     </>
   );
 }
+export default PokemonTable

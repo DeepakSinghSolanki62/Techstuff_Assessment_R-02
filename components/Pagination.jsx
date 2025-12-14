@@ -1,6 +1,6 @@
-export default function Pagination({ currentPage, totalPages, onPageChange }) {
+const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
-    <div className="flex justify-between items-center mt-4">
+    <div className="flex items-center justify-between mt-4">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -26,3 +26,4 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
     </div>
   );
 }
+export default Pagination

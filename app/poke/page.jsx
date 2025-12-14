@@ -6,19 +6,19 @@ import PokemonDetails from "@/components/PokemonDetails";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import Pagination from "@/components/Pagination";
 
-export default function PokePage() {
+const PokePage = () => {
   const [pokemonList, setPokemonList] = useState([]);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [isloading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const limit = 10;
   const totalPokemon = 1302;
 
   const fetchPokemons = useCallback(async (currentPage = 1) => {
-    setLoading(true);
-    setError("");
+    setIsLoading(true);
+    setErrorMessage("");
     try {
       const offset = (currentPage - 1) * limit;
       const res = await fetch(
@@ -28,17 +28,17 @@ export default function PokePage() {
       const data = await res.json();
       const detailedPokemons = await Promise.all(
         data.results.map(async (p) => {
-          const r = await fetch(p.url);
-          if (!r.ok) throw new Error("Failed to fetch Pokémon details");
-          return r.json();
+          const res = await fetch(p.url);
+          if (!res.ok) throw new Error("Failed to fetch Pokémon details");
+          return res.json();
         })
       );
       setPokemonList(detailedPokemons);
       setSelectedPokemon(detailedPokemons[0] || null);
     } catch (err) {
-      setError(err.message);
+      setErrorMessage(err.message);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, []);
 
@@ -54,10 +54,12 @@ export default function PokePage() {
         Pokemon Data Explorer
       </h1>
 
-      {error && <p className="text-red-500 font-semibold mb-4">{error}</p>}
+      {errorMessage && (
+        <p className="text-red-500 font-semibold mb-4">{errorMessage}</p>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {loading ? (
+        {isloading ? (
           <LoadingSkeleton rows={10} />
         ) : (
           <>
@@ -65,7 +67,7 @@ export default function PokePage() {
             <div className="md:col-span-2">
               <PokemonTable
                 pokemonList={pokemonList}
-                loading={loading}
+                loading={isloading}
                 onSelectPokemon={setSelectedPokemon}
                 selectedPokemon={selectedPokemon}
               />
@@ -85,4 +87,6 @@ export default function PokePage() {
       </div>
     </div>
   );
-}
+};
+
+export default PokePage;

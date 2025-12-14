@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 
-export default function TypeTabs({ types }) {
- 
+const TypeTabs = ({ types }) => {
   const [activeTab, setActiveTab] = useState(null);
   const [gameIndexCount, setGameIndexCount] = useState(0);
   const [movesCount, setMovesCount] = useState(0);
 
-useEffect(() => {
+  useEffect(() => {
     if (types?.length > 0) {
       setActiveTab(types[0].type.name);
     }
@@ -15,13 +14,11 @@ useEffect(() => {
   useEffect(() => {
     if (!activeTab) return;
     async function fetchTypeData() {
-      const res = await fetch(
-        `https://pokeapi.co/api/v2/type/${activeTab}`
-      );
+      const res = await fetch(`https://pokeapi.co/api/v2/type/${activeTab}`);
       const data = await res.json();
 
-      setGameIndexCount(data.game_indices.length);
-      setMovesCount(data.moves.length);
+      setGameIndexCount(data?.game_indices.length);
+      setMovesCount(data?.moves.length);
     }
 
     fetchTypeData();
@@ -36,12 +33,12 @@ useEffect(() => {
             key={t.type.name}
             onClick={() => setActiveTab(t.type.name)}
             className={`px-3 py-1 rounded-full text-sm capitalize transition-all duration-200 ${
-              activeTab === t.type.name
-                ? "bg-blue-500 text-white"
+              activeTab === t?.type?.name
+                ? "bg-primary text-white"
                 : "bg-blue-200 text-blue-700 hover:bg-blue-300"
             }`}
           >
-            {t.type.name}
+            {t?.type?.name}
           </button>
         ))}
       </div>
@@ -50,17 +47,15 @@ useEffect(() => {
       <div className="text-sm bg-gray-50 p-3 rounded-sm">
         <p className="pb-2">
           <strong>Game Indices:</strong>{" "}
-          <span className="font-semibold text-blue-600">
-            {gameIndexCount}
-          </span>
+          <span className="font-semibold text-blue-600">{gameIndexCount}</span>
         </p>
         <p>
           <strong>Total Moves:</strong>{" "}
-          <span className="font-semibold text-blue-600">
-            {movesCount}
-          </span>
+          <span className="font-semibold text-blue-600">{movesCount}</span>
         </p>
       </div>
     </div>
   );
-}
+};
+
+export default TypeTabs;
